@@ -16,20 +16,61 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository repository;
     private final ObjectMapper mapper;
 
+
     @Override
     public List<Product> getAllProducts() {
+
+
+//        New way with Strim API------------------------------------------------------------
+
         return repository.getAllProducts()
                 .stream()
                 .map((productEntity) -> mapper.convertValue(productEntity, Product.class))
                 .collect(Collectors.toList());
+
+//        --------------------------------------------------------------------------------------
+
+
+
+//        Old way -----------------------------------------------------------------------------
+//        List<ProductEntity> allProductsEntity = repository.getAllProducts();
+//        List<Product> allProduct = new ArrayList<>();
+//        allProductsEntity.forEach((productEntity) -> {
+//            Product product = mapper.convertValue(productEntity, Product.class);
+//            allProduct.add(product);
+//        });
+//        return allProduct;
+//        --------------------------------------------------------------------------------------
+
+
     }
 
     @Override
     public List<Product> getLowLevelStock() {
+
+//        New way with Strim API------------------------------------------------------------
+
         return repository.getAllProducts()
                 .stream()
                 .filter(productEntity -> productEntity.getQtyOnHand() <= 50)
                 .map((productEntity) -> mapper.convertValue(productEntity, Product.class))
                 .collect(Collectors.toList());
+
+//        --------------------------------------------------------------------------------------
+
+
+
+
+//        Old way -----------------------------------------------------------------------------
+//        List<ProductEntity> allProductsEntity = repository.getAllProducts();
+//        List<Product> allProduct = new ArrayList<>();
+//        allProductsEntity.forEach((productEntity) -> {
+//            if (productEntity.getQtyOnHand() <= 50){
+//                Product product = mapper.convertValue(productEntity, Product.class);
+//                allProduct.add(product);
+//            }
+//        });
+//        return allProduct;
+//        --------------------------------------------------------------------------------------
     }
 }
